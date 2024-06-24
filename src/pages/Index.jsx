@@ -5,11 +5,12 @@ import { FaEdit, FaHeart } from "react-icons/fa";
 
 const BlogPost = ({ title, content, imageUrl }) => {
   const bg = useColorModeValue("gray.100", "gray.700");
+  const color = useColorModeValue("gray.800", "white");
   return (
     <Box bg={bg} p={5} borderRadius="md" boxShadow="md" mb={5}>
-      <Heading size="md" mb={2}>{title}</Heading>
+      <Heading size="md" mb={2} color={color}>{title}</Heading>
       {imageUrl && <Image src={imageUrl} alt={title} mb={3} borderRadius="md" />}
-      <Text mb={3}>{content}</Text>
+      <Text mb={3} color={color}>{content}</Text>
       <Button leftIcon={<FaHeart />} colorScheme="pink" size="sm" mr={2}>
         Like
       </Button>
@@ -38,10 +39,13 @@ const Index = () => {
     setBlogPosts([newPost, ...blogPosts]);
   };
 
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const color = useColorModeValue("gray.800", "white");
+
   return (
-    <Container maxW="container.md" py={10}>
+    <Container maxW="container.md" py={10} bg={bgColor} minH="100vh">
       <VStack spacing={8} align="stretch">
-        <Heading as="h1" size="2xl" textAlign="center">My Personal Blog</Heading>
+        <Heading as="h1" size="2xl" textAlign="center" color={color}>My Personal Blog</Heading>
         <AddBlogPostForm onAddPost={handleAddPost} />
         {blogPosts.map((post, index) => (
           <BlogPost key={index} {...post} />
