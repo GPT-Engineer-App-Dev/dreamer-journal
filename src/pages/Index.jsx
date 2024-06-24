@@ -1,17 +1,45 @@
-// Update this page (the content is just a fallback if you fail and example)
-// Use chakra-ui
-import { Container, Text, VStack } from "@chakra-ui/react";
+import React from 'react';
+import { Box, Container, VStack, Heading, Text, Image, Button, useColorModeValue } from "@chakra-ui/react";
+import { FaEdit, FaHeart } from "react-icons/fa";
 
-// Example of using react-icons
-// import { FaRocket } from "react-icons/fa";
-// <IconButton aria-label="Add" icon={<FaRocket />} size="lg" />; // IconButton would also have to be imported from chakra
+const BlogPost = ({ title, content, imageUrl }) => {
+  const bg = useColorModeValue("gray.100", "gray.700");
+  return (
+    <Box bg={bg} p={5} borderRadius="md" boxShadow="md" mb={5}>
+      <Heading size="md" mb={2}>{title}</Heading>
+      {imageUrl && <Image src={imageUrl} alt={title} mb={3} borderRadius="md" />}
+      <Text mb={3}>{content}</Text>
+      <Button leftIcon={<FaHeart />} colorScheme="pink" size="sm" mr={2}>
+        Like
+      </Button>
+      <Button leftIcon={<FaEdit />} colorScheme="teal" size="sm">
+        Comment
+      </Button>
+    </Box>
+  );
+};
 
 const Index = () => {
+  const blogPosts = [
+    {
+      title: "My First Blog Post",
+      content: "Welcome to my personal blog! Here, I'll be sharing my thoughts, experiences, and insights on various topics. Stay tuned for more content!",
+      imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"
+    },
+    {
+      title: "The Joy of Coding",
+      content: "Coding is not just about writing lines of text; it's about solving problems and creating something new. It's a skill that combines logic, creativity, and continuous learning.",
+      imageUrl: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    }
+  ];
+
   return (
-    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-      <VStack spacing={4}>
-        <Text fontSize="2xl">Your Blank Canvas</Text>
-        <Text>Chat with the agent to start making edits.</Text>
+    <Container maxW="container.md" py={10}>
+      <VStack spacing={8} align="stretch">
+        <Heading as="h1" size="2xl" textAlign="center">My Personal Blog</Heading>
+        {blogPosts.map((post, index) => (
+          <BlogPost key={index} {...post} />
+        ))}
       </VStack>
     </Container>
   );
