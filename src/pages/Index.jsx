@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import AddBlogPostForm from '../components/AddBlogPostForm';
-import { Box, Container, VStack, Heading, Text, Image, Button, useColorModeValue } from "@chakra-ui/react";
-import { FaEdit, FaHeart } from "react-icons/fa";
+import { Box, Container, VStack, Heading, Text, Image, Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+
+const ColorModeToggle = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  return (
+    <Button onClick={toggleColorMode} position="fixed" top="4" right="4">
+      {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+    </Button>
+  );
+};
 
 const BlogPost = ({ title, content, imageUrl }) => {
   const bg = useColorModeValue("gray.100", "gray.700");
   const color = useColorModeValue("gray.800", "white");
   return (
-    <Box bg={bg} p={5} borderRadius="md" boxShadow="md" mb={5}>
-      <Heading size="md" mb={2} color={color}>{title}</Heading>
+    <Box bg={bg} color={color} p={5} borderRadius="md" boxShadow="md" mb={5}>
+      <Heading size="md" mb={2}>{title}</Heading>
       {imageUrl && <Image src={imageUrl} alt={title} mb={3} borderRadius="md" />}
-      <Text mb={3} color={color}>{content}</Text>
-      <Button leftIcon={<FaHeart />} colorScheme="pink" size="sm" mr={2}>
-        Like
-      </Button>
-      <Button leftIcon={<FaEdit />} colorScheme="teal" size="sm">
-        Comment
-      </Button>
+      <Text mb={3}>{content}</Text>
     </Box>
   );
 };
@@ -44,6 +47,7 @@ const Index = () => {
 
   return (
     <Container maxW="container.md" py={10} bg={bgColor} minH="100vh">
+      <ColorModeToggle />
       <VStack spacing={8} align="stretch">
         <Heading as="h1" size="2xl" textAlign="center" color={color}>My Personal Blog</Heading>
         <AddBlogPostForm onAddPost={handleAddPost} />
