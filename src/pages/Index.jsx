@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AddBlogPostForm from '../components/AddBlogPostForm';
 import { Box, Container, VStack, Heading, Text, Image, Button, useColorModeValue } from "@chakra-ui/react";
 import { FaEdit, FaHeart } from "react-icons/fa";
 
@@ -20,7 +21,7 @@ const BlogPost = ({ title, content, imageUrl }) => {
 };
 
 const Index = () => {
-  const blogPosts = [
+  const [blogPosts, setBlogPosts] = useState([
     {
       title: "My First Blog Post",
       content: "Welcome to my personal blog! Here, I'll be sharing my thoughts, experiences, and insights on various topics. Stay tuned for more content!",
@@ -31,12 +32,17 @@ const Index = () => {
       content: "Coding is not just about writing lines of text; it's about solving problems and creating something new. It's a skill that combines logic, creativity, and continuous learning.",
       imageUrl: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
     }
-  ];
+  ]);
+
+  const handleAddPost = (newPost) => {
+    setBlogPosts([newPost, ...blogPosts]);
+  };
 
   return (
     <Container maxW="container.md" py={10}>
       <VStack spacing={8} align="stretch">
         <Heading as="h1" size="2xl" textAlign="center">My Personal Blog</Heading>
+        <AddBlogPostForm onAddPost={handleAddPost} />
         {blogPosts.map((post, index) => (
           <BlogPost key={index} {...post} />
         ))}
