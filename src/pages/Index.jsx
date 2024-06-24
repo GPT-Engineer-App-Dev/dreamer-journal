@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import AddBlogPostForm from '../components/AddBlogPostForm';
 import { Box, Container, VStack, Heading, Text, Image, Button, useColorModeValue } from "@chakra-ui/react";
-import { FaEdit, FaHeart } from "react-icons/fa";
+import { FaEdit, FaHeart, FaTrash } from "react-icons/fa";
 
-const BlogPost = ({ title, content, imageUrl }) => {
+const BlogPost = ({ title, content, imageUrl, onDelete }) => {
   const bg = useColorModeValue("gray.100", "gray.700");
   const color = useColorModeValue("gray.800", "white");
   return (
@@ -16,6 +16,9 @@ const BlogPost = ({ title, content, imageUrl }) => {
       </Button>
       <Button leftIcon={<FaEdit />} colorScheme="teal" size="sm">
         Comment
+      </Button>
+    <Button leftIcon={<FaTrash />} colorScheme="red" size="sm" onClick={onDelete}>
+        Delete
       </Button>
     </Box>
   );
@@ -39,6 +42,10 @@ const Index = () => {
     setBlogPosts([newPost, ...blogPosts]);
   };
 
+  const handleDeletePost = (index) => {
+    setBlogPosts(blogPosts.filter((_, i) => i !== index));
+  };
+
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const color = useColorModeValue("gray.800", "white");
 
@@ -48,7 +55,7 @@ const Index = () => {
         <Heading as="h1" size="2xl" textAlign="center" color={color}>My Personal Blog</Heading>
         <AddBlogPostForm onAddPost={handleAddPost} />
         {blogPosts.map((post, index) => (
-          <BlogPost key={index} {...post} />
+          <BlogPost key={index} {...post} onDelete={() => handleDeletePost(index)} />
         ))}
       </VStack>
     </Container>
